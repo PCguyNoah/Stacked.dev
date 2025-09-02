@@ -14,7 +14,7 @@ export async function signUpUser(email: string, password: string, username: stri
 
   if (error) {
     console.error("Error signing up:", error.message)
-    return null
+    return error.message
   }
 
   const user = data.user
@@ -28,12 +28,14 @@ export async function signUpUser(email: string, password: string, username: stri
 
     if (profileError) {
       console.error("Error creating profile:", profileError.message)
+      return profileError.message;
     } else {
       console.log("Profile created for:", username)
     }
   }
-
-  return user
+  // not sure if we want to return the user yet
+  // return user
+  return "success!"
 }
 
 export async function loginUser(email: string, password: string) {
@@ -55,7 +57,7 @@ export async function getUser() {
   return user;
 }
 
-export async function insertMetric(userId: string, metricId: number) {
+export async function insertMetric(userId: string, metricId: number, metric: number) {
   const currentDate = new Date();
   
   if (userId) {
@@ -65,15 +67,18 @@ export async function insertMetric(userId: string, metricId: number) {
         user_id: userId,
         metric_id: metricId,
         entry_date: currentDate.toDateString(),
-        value: 1
+        value: metric
       }
     ])
-      console.log("ADDED RECORD")
+      console.log("ADDED RECORD");
+      return metricId;
     }
     catch (e) {
       console.log("ERROR: ", e);
+      return null;
     }
   }
+  return null;
 }
 
 
