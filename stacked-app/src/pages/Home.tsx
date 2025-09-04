@@ -6,6 +6,7 @@ import { useState, useEffect } from "react"
 import { insertMetric } from '../components/SupabaseClient.tsx';
 import CustomModal from '../components/CustomModal.tsx';
 import { supabase } from "../components/SupabaseClient"
+import FadeContent from '../components/FadeContent.tsx';
 import '../App.css'
 
 export default function Home() {
@@ -63,7 +64,8 @@ export default function Home() {
   }
 
   return (
-    <div className='content'>
+    <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
+      <div className='content'>
       <h1>Insert metric</h1>
 
       <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
@@ -95,5 +97,7 @@ export default function Home() {
         onClose={() => setIsModalOpen(false)}
       />
     </div>
+    </FadeContent>
+    
   )
 }

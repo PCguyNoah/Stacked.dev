@@ -4,6 +4,7 @@ import { PostgrestError } from '@supabase/supabase-js';
 import  CustomModal  from '../components/CustomModal.tsx';
 import '../App.css'
 import { useNavigate } from "react-router-dom";
+import AnimatedContent from "../components/AnimatedContent.tsx";
 
 export default function Landing() {
   const [user, setUser] = useState<any>(null)
@@ -45,9 +46,21 @@ export default function Landing() {
     console.log("Logged in for user: " + user?.id);
   }
   return (
-
-    <div className="content">
-      <h1>Stacked.dev</h1>
+    <div style={{ position: "relative" }}>
+    <AnimatedContent
+      distance={100}
+      direction="vertical"
+      reverse={false}
+      duration={1.2}
+      ease="power3.out"
+      initialOpacity={0.2}
+      animateOpacity={true}
+      scale={1}
+      threshold={0.1}
+      delay={0}
+    >
+      <div className="content">
+        <h1>Stacked.dev</h1>
       <input
         type="text"
         placeholder="username"
@@ -82,6 +95,9 @@ export default function Landing() {
         onChange={(e) => setPassword(e.target.value)}
         />
       <button onClick={handleLogin}>Log in</button>
+      </div>
+    </AnimatedContent>
+    
 
       <CustomModal
         title={modalTitle}
