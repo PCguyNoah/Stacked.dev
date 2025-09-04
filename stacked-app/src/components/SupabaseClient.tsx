@@ -13,12 +13,10 @@ export async function signUpUser(email: string, password: string, username: stri
   })
 
   if (error) {
-    console.error("Error signing up:", error.message)
     return error.message
   }
 
   const user = data.user
-  console.log("User created:", user)
 
   // 2. Insert into profiles table
   if (user) {
@@ -27,10 +25,7 @@ export async function signUpUser(email: string, password: string, username: stri
       .insert([{ id: user.id, username }])
 
     if (profileError) {
-      console.error("Error creating profile:", profileError.message)
       return profileError.message;
-    } else {
-      console.log("Profile created for:", username)
     }
   }
   // not sure if we want to return the user yet
@@ -45,11 +40,18 @@ export async function loginUser(email: string, password: string) {
   })
 
   if (error) {
-    console.error("Login error:", error.message)
-    return null
+    console.error("Login error: ", error.message)
+    console.error("STATUS: ", error.code)
+    return {
+      user: null,
+      error: error 
+    }
   }
 
-  return data.user
+  return {
+    user: data.user,
+    error: error 
+  }
 }
 
 export async function getUser() {
@@ -57,7 +59,7 @@ export async function getUser() {
   return user;
 }
 
-export async function insertMetric(userId: string, metricId: number, metric: number) {
+export async function insertMetric(userId: string, metricId: number, metric: any) {
   const currentDate = new Date();
   
   if (userId) {
@@ -80,5 +82,3 @@ export async function insertMetric(userId: string, metricId: number, metric: num
   }
   return null;
 }
-
-
