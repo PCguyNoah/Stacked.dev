@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { supabase } from "./components/SupabaseClient"
 import Landing from "./pages/Landing.tsx"
 import Home from "./pages/Home.tsx"
+import DarkVeil from './components/DarkVeil';
 
 function App() {
   const [user, setUser] = useState<any>(null)
@@ -25,13 +26,18 @@ function App() {
   }, [])
 
   return (
-    <Routes>
-      <Route path="/" element={<Landing />} />
-      <Route
-        path="/home"
-        element={user ? <Home /> : <Navigate to="/" replace />}
-      />
-    </Routes>
+    <>
+      <div style={{ position: 'fixed', inset: 0, zIndex: -1 }}>
+        <DarkVeil />
+      </div>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route
+          path="/home"
+          element={user ? <Home /> : <Navigate to="/" replace />}
+        />
+      </Routes>
+    </>
   )
 }
 

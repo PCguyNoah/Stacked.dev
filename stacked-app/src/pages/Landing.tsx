@@ -3,6 +3,7 @@ import { signUpUser, loginUser } from '../components/SupabaseClient.tsx';
 import { PostgrestError } from '@supabase/supabase-js';
 import  CustomModal  from '../components/CustomModal.tsx';
 import '../App.css'
+import './Landing.css'
 import { useNavigate } from "react-router-dom";
 import AnimatedContent from "../components/AnimatedContent.tsx";
 
@@ -17,6 +18,7 @@ export default function Landing() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState(""); 
   const [modalBody, setModalBody] = useState("");
+  const [isSignup, setIsSignup] = useState(true);
   let navigate = useNavigate();
 
   async function handleSignUp() {
@@ -45,6 +47,10 @@ export default function Landing() {
 
     console.log("Logged in for user: " + user?.id);
   }
+
+  function toggleSignup() {
+    isSignup ? setIsSignup(false) : setIsSignup(true);
+  }
   return (
     <div style={{ position: "relative" }}>
     <AnimatedContent
@@ -61,40 +67,59 @@ export default function Landing() {
     >
       <div className="content">
         <h1>Stacked.dev</h1>
-      <input
-        type="text"
-        placeholder="username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <input
-        type="email"
-        placeholder="email"
-        value={tEmail}
-        onChange={(e) => setTemail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="password"
-        value={tPassword}
-        onChange={(e) => setTpassword(e.target.value)}
-      />
-      <button onClick={handleSignUp}>Sign Up</button>
 
-      <h1>Login</h1>
-      <input
-        type="email"
-        placeholder="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        />
-      <button onClick={handleLogin}>Log in</button>
+      <div className="signup-modal">
+        <div className="input-header-container">
+          <button className={`input-header ${isSignup ? "active-header": ""} `} onClick={toggleSignup}>Signup</button>
+          <button className={`input-header ${!isSignup ? "active-header": ""} `} onClick={toggleSignup}>Login</button>
+        </div>
+        { isSignup && 
+          <>
+            <input
+              className="input"
+              type="text"
+              placeholder="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <input
+              className="input"
+              type="email"
+              placeholder="email"
+              value={tEmail}
+              onChange={(e) => setTemail(e.target.value)}
+            />
+            <input
+              className="input"
+              type="password"
+              placeholder="password"
+              value={tPassword}
+              onChange={(e) => setTpassword(e.target.value)}
+            />
+            <button onClick={handleSignUp}>Sign Up</button>
+          </>
+        }
+        
+        { !isSignup && 
+          <>
+            <input
+              className="input"
+              type="email"
+              placeholder="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              className="input"
+              type="password"
+              placeholder="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              />
+            <button onClick={handleLogin}>Log in</button>
+          </>
+        }
+      </div>
       </div>
     </AnimatedContent>
     
